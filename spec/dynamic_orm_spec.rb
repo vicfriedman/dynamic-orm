@@ -51,7 +51,6 @@ describe "Metaprogrammed Amazingness" do
 
     context "Instances" do
       it "defines methods based on the columns" do
-        binding.pry
         steven_nunez = Programmer.new
         steven_nunez.name = "Steven Nunez"
         steven_nunez.language = "Loves teh rubiez"
