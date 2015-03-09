@@ -4,10 +4,11 @@ languages: ruby
 resources: null
 ---
 
-Building an ORM
-===============
+# Building an ORM
 
-NOTE: This lab requires some setup so run this in your terminal
+## Note
+
+This lab requires some setup so run this in your terminal
 
 ``` shell
 createdb dynamic_orm_test
@@ -36,7 +37,7 @@ Assignment
 You'll be building your own ORM. The class you will be building is Base
 located inside the FlactiveRecord module.
 
-``` ruby
+```ruby
 module FlactiveRecord
   class Base
   end
@@ -66,7 +67,7 @@ names. A Programmer instance will have the following methods:
 
 You will find 2 classes defined in the tests
 
-``` ruby
+```ruby
 class State < FlactiveRecord::Base
 end
 
@@ -82,7 +83,7 @@ Tips
 
 ### How to get a list of columns from postgres
 
-``` {.sql}
+```
 SELECT column_name
 FROM information_schema.columns
 WHERE table_name='#{table_name}'
@@ -93,7 +94,7 @@ WHERE table_name='#{table_name}'
 Whenever a class is inherited, ruby calls the superclass'
 `self.inherited` method and passes it the class that inherited it.
 
-``` ruby
+```ruby
 class SoSuper
   def self.inherited(base)
     puts "#{base} inherited #{self}"
@@ -108,7 +109,7 @@ end
 Notice that inside the inherited class, `self` is `SoSuper`. We can
 change self to be the inherited class by using `.class_eval`
 
-``` ruby
+```ruby
 class SoSuper
   def self.inherited(base)
     puts "self is the class #{self}"
@@ -128,7 +129,8 @@ end
 Use our DBConnection object to run sql commands.
 
 In your `Base` class you can wrap your methods using
-``` ruby
+
+```ruby
 def self.exec(sql, args=[])
   DBConnection.instance.exec(sql, args)
 end
