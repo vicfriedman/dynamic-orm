@@ -1,9 +1,3 @@
----
-tags: "orm, metaprogramming, wip"
-languages: ruby
-resources: null
----
-
 # Building an ORM
 
 ## Note
