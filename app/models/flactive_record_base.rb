@@ -11,7 +11,6 @@ module FlactiveRecord
     end
 
     def self.table_name
-      # binding.pry
       Inflecto.pluralize(self.name).downcase
     end
 
@@ -27,6 +26,50 @@ module FlactiveRecord
       end
       column_names
     end
+
+    def initialize(hash={})
+      hash.each do |property, value|
+        public_send("#{property}=", value)
+      end
+    end
+
+    def save
+      if self.id
+        update
+      else
+        insert
+      end
+    end
+
+    def self.all
+      sql = <<-SQL
+        SELECT *
+        FROM #{table_name}
+      SQL
+      results = DBConnection.instance.exec(sql)
+      items = []
+      results.each do |person|
+        items << self.new(person)
+      end
+      items
+    end
+
+    def self.find(id)
+      sql = <<-SQL
+        SELECT *
+        FROM #{table_name}
+        WHERE id=$1
+        LIMIT 1
+      SQL
+      results = DBConnection.instance.exec(sql, [id])
+      results.map do |row|
+          new row
+      end.first
+    end
+
+    def self.insert
+    end
+
 
   end
 end
