@@ -67,7 +67,26 @@ module FlactiveRecord
       end.first
     end
 
-    def self.insert
+    def insert
+      columns = self.class.column_names.select do |column|
+        public_send(column)
+      end
+
+      values = columns.map do |column|
+        "'#{public_send(column)}'"
+      end
+
+      sql = <<-SQL
+        INSERT INTO #{self.class.table_name}
+        (#{columns.join(", ")})
+        VALUES
+        (#{values.join(", ")})
+        returning id
+      SQL
+
+      result = exec(sql)
+      self.id = result[0]["id"]
+      self
     end
 
 
